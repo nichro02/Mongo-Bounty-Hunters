@@ -1,1 +1,712 @@
-Please replace this text with ~50 lines of terminal history.
+SETUP
+
+- Create hunters database:
+> use hunters
+
+- Create collection for beings that have bounties: 
+> db.createCollection('bounties')
+
+- Add first bounty:
+> db.bounties.insert(
+  {
+    name: 'Han Solo',
+    wantedFor : 'Owing money',
+    client : 'Jabba the Hut',
+    reward : 1000000,
+    ship: 'Millennium Falcon',
+    hunters :['Bobba Fett', 'Dengar', 'IG-88', 'Zuckuss', 'Greedo', 'Bossk', '4-LOM'],
+    captured: false
+  }
+  )
+
+  - Add other bounties:
+  > db.bounties.insert([
+  {
+    name: 'Han Solo',
+    wantedFor : 'Owing money',
+    client : 'Jabba the Hut',
+    reward : 1000000,
+    ship: 'Millennium Falcon',
+    hunters :['Bobba Fett', 'Dengar', 'IG-88', 'Zuckuss', 'Greedo', 'Bossk', '4-LOM'],
+    captured: false
+  },
+  {
+    name: 'Rocket',
+    wantedFor : 'Stealing Batteries',
+    client : 'Ayesha High Priestess of the Sovereign',
+    reward : 1000000000,
+    ship: 'The Milano',
+    hunters :['Nebula', 'Ravagers'],
+    captured: false
+  },
+  {
+    name: 'Sara Lance',
+    wantedFor : 'Screwing up the timeline, causing anachronisms',
+    client : 'Time Bureau',
+    reward : 50000,
+    ship: 'Waverider',
+    hunters :['Chronos'],
+    captured: false
+  },
+  {
+    name: 'Malcolm Reynolds',
+    wantedFor : 'Aiming to misbehave',
+    client : 'The Alliance',
+    reward : 40000,
+    ship: 'Serenity',
+    hunters :['Jubal Early'],
+    captured: false
+  },
+  {
+    name: 'Starbuck',
+    wantedFor : "Disobeying Captain's orders",
+    client : 'Captain Adama',
+    ship: 'Demetrius',
+    reward : 1000,
+    hunters :['Apollo'],
+    captured: true
+  }
+])
+
+- Add own bounty:
+
+> db.bounties.insert(
+  {
+    name: 'Darth Vader',
+    wantedFor : 'Behind on child support payments',
+    client : 'The Skywalkers',
+    reward : 750000000000,
+    ship: 'Death Star',
+    hunters :['Chewy', 'Han Solo', 'Salatious Crum', 'R2D2', 'C3PO'],
+    captured: false
+  }
+  )
+
+-------------------------------------------------------
+READ/QUERY
+
+1. Query to see all bounties:
+
+> db.bounties.find().pretty()
+{
+	"_id" : ObjectId("5fd0285793240409c18070c4"),
+	"name" : "Han Solo",
+	"wantedFor" : "Owing money",
+	"client" : "Jabba the Hut",
+	"reward" : 1000000,
+	"ship" : "Millennium Falcon",
+	"hunters" : [
+		"Bobba Fett",
+		"Dengar",
+		"IG-88",
+		"Zuckuss",
+		"Greedo",
+		"Bossk",
+		"4-LOM"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c5"),
+	"name" : "Han Solo",
+	"wantedFor" : "Owing money",
+	"client" : "Jabba the Hut",
+	"reward" : 1000000,
+	"ship" : "Millennium Falcon",
+	"hunters" : [
+		"Bobba Fett",
+		"Dengar",
+		"IG-88",
+		"Zuckuss",
+		"Greedo",
+		"Bossk",
+		"4-LOM"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c6"),
+	"name" : "Rocket",
+	"wantedFor" : "Stealing Batteries",
+	"client" : "Ayesha High Priestess of the Sovereign",
+	"reward" : 1000000000,
+	"ship" : "The Milano",
+	"hunters" : [
+		"Nebula",
+		"Ravagers"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c7"),
+	"name" : "Sara Lance",
+	"wantedFor" : "Screwing up the timeline, causing anachronisms",
+	"client" : "Time Bureau",
+	"reward" : 50000,
+	"ship" : "Waverider",
+	"hunters" : [
+		"Chronos"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c8"),
+	"name" : "Malcolm Reynolds",
+	"wantedFor" : "Aiming to misbehave",
+	"client" : "The Alliance",
+	"reward" : 40000,
+	"ship" : "Serenity",
+	"hunters" : [
+		"Jubal Early"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c9"),
+	"name" : "Starbuck",
+	"wantedFor" : "Disobeying Captain's orders",
+	"client" : "Captain Adama",
+	"ship" : "Demetrius",
+	"reward" : 1000,
+	"hunters" : [
+		"Apollo"
+	],
+	"captured" : true
+}
+{
+    name: 'Darth Vader',
+    wantedFor : 'Behind on child support payments',
+    client : 'The Skywalkers',
+    reward : 750000000000,
+    ship: 'Death Star',
+    hunters :['Chewy', 'Han Solo', 'Salatious Crum', 'R2D2', 'C3PO'],
+    captured: false
+  }
+
+2. Query to find the bounty whose client is Time Bureau:
+
+> db.bounties.find({client: "Time Bureau"}).pretty()
+{
+	"_id" : ObjectId("5fd028b293240409c18070c7"),
+	"name" : "Sara Lance",
+	"wantedFor" : "Screwing up the timeline, causing anachronisms",
+	"client" : "Time Bureau",
+	"reward" : 50000,
+	"ship" : "Waverider",
+	"hunters" : [
+		"Chronos"
+	],
+	"captured" : false
+}
+
+3. Query to find the bounties who have been captured:
+
+> db.bounties.find({captured: true}).pretty()
+{
+	"_id" : ObjectId("5fd028b293240409c18070c9"),
+	"name" : "Starbuck",
+	"wantedFor" : "Disobeying Captain's orders",
+	"client" : "Captain Adama",
+	"ship" : "Demetrius",
+	"reward" : 1000,
+	"hunters" : [
+		"Apollo"
+	],
+	"captured" : true
+}
+
+4. Query specific to the bounty you inserted:
+
+> db.bounties.find({name: "Darth Vader"}).pretty()
+{
+	"_id" : ObjectId("5fd02b8593240409c18070ca"),
+	"name" : "Darth Vader",
+	"wantedFor" : "Behind on child support payments",
+	"client" : "The Skywalkers",
+	"reward" : 750000000000,
+	"ship" : "Death Star",
+	"hunters" : [
+		"Chewy",
+		"Han Solo",
+		"Salatious Crum",
+		"R2D2",
+		"C3PO"
+	],
+	"captured" : false
+}
+
+5. Query to just return the names of all the bounties:
+
+> db.bounties.find().forEach(function(bounty) {
+    print(bounty.name)
+})
+Han Solo
+Han Solo
+Rocket
+Sara Lance
+Malcolm Reynolds
+Starbuck
+Darth Vader
+
+---------------------------------------------------
+REMOVE
+
+1. Starbuck and the Captain have come to an understanding. Remove her record
+
+> db.bounties.remove({
+    "name": "Starbuck",
+    "client": "Captain Adama"
+})
+
+WriteResult({ "nRemoved" : 1 })
+
+Verification:
+
+> db.bounties.find().pretty()
+{
+	"_id" : ObjectId("5fd0285793240409c18070c4"),
+	"name" : "Han Solo",
+	"wantedFor" : "Owing money",
+	"client" : "Jabba the Hut",
+	"reward" : 1000000,
+	"ship" : "Millennium Falcon",
+	"hunters" : [
+		"Bobba Fett",
+		"Dengar",
+		"IG-88",
+		"Zuckuss",
+		"Greedo",
+		"Bossk",
+		"4-LOM"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c5"),
+	"name" : "Han Solo",
+	"wantedFor" : "Owing money",
+	"client" : "Jabba the Hut",
+	"reward" : 1000000,
+	"ship" : "Millennium Falcon",
+	"hunters" : [
+		"Bobba Fett",
+		"Dengar",
+		"IG-88",
+		"Zuckuss",
+		"Greedo",
+		"Bossk",
+		"4-LOM"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c6"),
+	"name" : "Rocket",
+	"wantedFor" : "Stealing Batteries",
+	"client" : "Ayesha High Priestess of the Sovereign",
+	"reward" : 1000000000,
+	"ship" : "The Milano",
+	"hunters" : [
+		"Nebula",
+		"Ravagers"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c7"),
+	"name" : "Sara Lance",
+	"wantedFor" : "Screwing up the timeline, causing anachronisms",
+	"client" : "Time Bureau",
+	"reward" : 50000,
+	"ship" : "Waverider",
+	"hunters" : [
+		"Chronos"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c8"),
+	"name" : "Malcolm Reynolds",
+	"wantedFor" : "Aiming to misbehave",
+	"client" : "The Alliance",
+	"reward" : 40000,
+	"ship" : "Serenity",
+	"hunters" : [
+		"Jubal Early"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd02b8593240409c18070ca"),
+	"name" : "Darth Vader",
+	"wantedFor" : "Behind on child support payments",
+	"client" : "The Skywalkers",
+	"reward" : 750000000000,
+	"ship" : "Death Star",
+	"hunters" : [
+		"Chewy",
+		"Han Solo",
+		"Salatious Crum",
+		"R2D2",
+		"C3PO"
+	],
+	"captured" : false
+}
+
+
+2. find and remove the duplicate record - be sure to JUST remove the one copy
+
+> db.bounties.remove(
+    {name: {$eq: "Han Solo"}, client: {$eq: "Jabba the Hut"}},
+    {justOne: true}
+)
+
+Verification:
+> db.bounties.find({name: {$eq: "Han Solo"}).pretty()
+{
+	"_id" : ObjectId("5fd034b293240409c18070cc"),
+	"name" : "Han Solo",
+	"wantedFor" : "Owing money",
+	"client" : "Jabba the Hut",
+	"reward" : 1000000,
+	"ship" : "Millennium Falcon",
+	"hunters" : [
+		"Bobba Fett",
+		"Dengar",
+		"IG-88",
+		"Zuckuss",
+		"Greedo",
+		"Bossk",
+		"4-LOM"
+	],
+	"captured" : false
+}
+
+-------------------------------------------
+UPDATE
+1. Update Sara Lance's name to be her superhero alias 'White Canary'
+
+> db.bounties.update({name: "Sara Lance"},
+{
+    $set: {
+        name: "White Canary"
+    }
+})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+Verification
+>db.bounties.find({name: "White Canary"}).pretty()
+{
+	"_id" : ObjectId("5fd028b293240409c18070c6"),
+	"name" : "Rocket",
+	"wantedFor" : "Stealing Batteries",
+	"client" : "Ayesha High Priestess of the Sovereign",
+	"reward" : 1000000000,
+	"ship" : "The Milano",
+	"hunters" : [
+		"Nebula",
+		"Ravagers"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c7"),
+	"name" : "White Canary",
+	"wantedFor" : "Screwing up the timeline, causing anachronisms",
+	"client" : "Time Bureau",
+	"reward" : 50000,
+	"ship" : "Waverider",
+	"hunters" : [
+		"Chronos"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c8"),
+	"name" : "Malcolm Reynolds",
+	"wantedFor" : "Aiming to misbehave",
+	"client" : "The Alliance",
+	"reward" : 40000,
+	"ship" : "Serenity",
+	"hunters" : [
+		"Jubal Early"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd02b8593240409c18070ca"),
+	"name" : "Darth Vader",
+	"wantedFor" : "Behind on child support payments",
+	"client" : "The Skywalkers",
+	"reward" : 750000000000,
+	"ship" : "Death Star",
+	"hunters" : [
+		"Chewy",
+		"Han Solo",
+		"Salatious Crum",
+		"R2D2",
+		"C3PO"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd034b293240409c18070cc"),
+	"name" : "Han Solo",
+	"wantedFor" : "Owing money",
+	"client" : "Jabba the Hut",
+	"reward" : 1000000,
+	"ship" : "Millennium Falcon",
+	"hunters" : [
+		"Bobba Fett",
+		"Dengar",
+		"IG-88",
+		"Zuckuss",
+		"Greedo",
+		"Bossk",
+		"4-LOM"
+	],
+	"captured" : false
+}
+
+
+2. Update Rocket's ship to be The Milano 2
+> db.bounties.update({name: "Rocket"},
+{
+    $set: {
+        ship: "The Milano 2"
+    }
+})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+Verification
+> db.bounties.find({name: "Rocket"}).pretty()
+
+{
+	"_id" : ObjectId("5fd028b293240409c18070c6"),
+	"name" : "Rocket",
+	"wantedFor" : "Stealing Batteries",
+	"client" : "Ayesha High Priestess of the Sovereign",
+	"reward" : 1000000000,
+	"ship" : "The Milano 2",
+	"hunters" : [
+		"Nebula",
+		"Ravagers"
+	],
+	"captured" : false
+}
+
+--------------------------------------------
+INTERMEDIATE MONGO
+
+1. Find the bounties that are greater than 100000
+> db.bounties.find({reward: {$gt: 100000}}).pretty()
+{
+	"_id" : ObjectId("5fd028b293240409c18070c6"),
+	"name" : "Rocket",
+	"wantedFor" : "Stealing Batteries",
+	"client" : "Ayesha High Priestess of the Sovereign",
+	"reward" : 1000000000,
+	"ship" : "The Milano 2",
+	"hunters" : [
+		"Nebula",
+		"Ravagers"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd02b8593240409c18070ca"),
+	"name" : "Darth Vader",
+	"wantedFor" : "Behind on child support payments",
+	"client" : "The Skywalkers",
+	"reward" : 750000000000,
+	"ship" : "Death Star",
+	"hunters" : [
+		"Chewy",
+		"Han Solo",
+		"Salatious Crum",
+		"R2D2",
+		"C3PO"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd034b293240409c18070cc"),
+	"name" : "Han Solo",
+	"wantedFor" : "Owing money",
+	"client" : "Jabba the Hut",
+	"reward" : 1000000,
+	"ship" : "Millennium Falcon",
+	"hunters" : [
+		"Bobba Fett",
+		"Dengar",
+		"IG-88",
+		"Zuckuss",
+		"Greedo",
+		"Bossk",
+		"4-LOM"
+	],
+	"captured" : false
+}
+
+
+2.Find the bounties that are less than 1000
+> db.bounties.find({reward: {$lt: 1000}}).pretty()
+
+None returned
+
+
+3. Find the bounties that are less than or equal to 1000
+> db.bounties.find({reward: {$lte: 1000}}).pretty()
+
+None returned
+
+ 
+4. Find the bounty with the hunter Nebula
+> db.bounties.find({hunters: "Nebula"}).pretty()
+{
+	"_id" : ObjectId("5fd028b293240409c18070c6"),
+	"name" : "Rocket",
+	"wantedFor" : "Stealing Batteries",
+	"client" : "Ayesha High Priestess of the Sovereign",
+	"reward" : 2001333332,
+	"ship" : "The Milano 2",
+	"hunters" : [
+		"Nebula",
+		"Ravagers"
+	],
+	"captured" : false,
+	"lastSeen" : "last week"
+}
+
+
+5. Find the bounty with the ship Waverider OR Serenity
+> db.bounties.find({$or: [{ship: "Waverider"}, {ship: "Serenity"}]}).pretty()
+{
+	"_id" : ObjectId("5fd028b293240409c18070c7"),
+	"name" : "White Canary",
+	"wantedFor" : "Screwing up the timeline, causing anachronisms",
+	"client" : "Time Bureau",
+	"reward" : 50000,
+	"ship" : "Waverider",
+	"hunters" : [
+		"Chronos"
+	],
+	"captured" : false
+}
+{
+	"_id" : ObjectId("5fd028b293240409c18070c8"),
+	"name" : "Malcolm Reynolds",
+	"wantedFor" : "Aiming to misbehave",
+	"client" : "The Alliance",
+	"reward" : 40000,
+	"ship" : "Serenity",
+	"hunters" : [
+		"Jubal Early"
+	],
+	"captured" : false
+}
+
+6. Find the bounty who is not captured AND has whose client is Ayesha High Priestess of the Sovereign
+> db.bounties.find({$and: [{captured: false}, {client: "Ayesha High Priestess of the Sovereign"}]}).pretty()
+{
+	"_id" : ObjectId("5fd028b293240409c18070c6"),
+	"name" : "Rocket",
+	"wantedFor" : "Stealing Batteries",
+	"client" : "Ayesha High Priestess of the Sovereign",
+	"reward" : 1000000000,
+	"ship" : "The Milano 2",
+	"hunters" : [
+		"Nebula",
+		"Ravagers"
+	],
+	"captured" : false
+}
+
+7. Increase all the bounties by 333333
+> db.bounties.update(
+    {},
+    {$inc: {reward: 333333}},
+    {multi: true}
+)
+
+Verification:
+> db.bounties.find().pretty()
+
+8. Multiply all the bounties by 2
+> db.bounties.update(
+    {},
+    {$mul: {reward: 2}},
+    {multi: true}
+)
+
+Verification:
+> db.bounties.find().pretty()
+
+9. Add Bobba Fett as a hunter for Malcolm Reynolds
+> db.bounties.update({name: "Malcolm Reynolds"},
+{
+    $push: {
+        hunters: "Bobba Fett"
+    }
+}
+)
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+Verification:
+> db.bounties.find({name: "Malcolm Reynolds"}).pretty()
+
+10. Add Bobba Fett as a hunter for the one that has the ship Waverider
+> db.bounties.update({ship: "Waverider"},
+{
+    $push: {
+        hunters: "Bobba Fett"
+    }
+}
+)
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+Verification:
+> db.bounties.find({ship: "Waverider"}).pretty()
+
+11. Find and remove Dengar the bounty hunter
+> db.bounties.update(
+    {},
+    {$pull: {hunters: {$in: ["Dengar"]}}},
+    {multi: true}
+)
+WriteResult({ "nMatched" : 5, "nUpserted" : 0, "nModified" : 1 })
+
+Verification:
+> db.bounties.find().pretty()
+
+---------------------------------
+UPSERT
+
+Upsert is used with update method which creates a new document if the query does not retrieve any documents matching the query parameters.
+
+1. Try giving a lastSeen field to Han Solo, with the property yesterday (we haven't set his yet)
+
+> db.bounties.update(
+    {name: "Han Solo"},
+    {$set: {lastSeen: "yesterday"}},
+    {upsert: true}
+)
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+Verification:
+> db.bounties.find({name: "Han Solo"}).pretty()
+
+2. Try giving all bounties that are not Han Solo a new field of lastSeen - with a value of last week
+
+> db.bounties.update(
+    {name: {$ne: "Han Solo"}},
+    {$set: {lastSeen: "last week"}},
+    {
+        upsert: true,
+        multi: true
+    }
+)
+WriteResult({ "nMatched" : 4, "nUpserted" : 0, "nModified" : 4 })
+
+Verification:
+> db.bounties.find({name: {$ne: "Han Solo"}}).pretty()
